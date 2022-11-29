@@ -16,5 +16,9 @@ class Query:
     series: List[types.Series] = gql.django.field()
 
 
+# TODO: Add mutation for importing a shiur (optional series key)
+# TODO: write a script to import all the old shiurim
+
+
 # TODO: Add extensions
 schema = strawberry.Schema(query=Query, config=StrawberryConfig(auto_camel_case=False))

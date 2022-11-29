@@ -1,5 +1,8 @@
 from django.db import models
 
+# TODO: Add tags model
+# TODO: add category model
+
 
 class Series(models.Model):
     key = models.CharField(null=True, max_length=255)
