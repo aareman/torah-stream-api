@@ -1,5 +1,10 @@
+from typing import List
+
 import strawberry
 from strawberry.schema.config import StrawberryConfig
+from strawberry_django_plus import gql
+
+from api import types
 
 # TODO: Add queries
 # - Progress, total / organized
@@ -8,7 +13,7 @@ from strawberry.schema.config import StrawberryConfig
 
 @strawberry.type
 class Query:
-    example_field: str
+    series: List[types.Series] = gql.django.field()
 
 
 # TODO: Add extensions

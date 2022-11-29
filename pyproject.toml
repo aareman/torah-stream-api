@@ -10,7 +10,12 @@ packages = [{include = "torah_stream_api"}]
 python = "^3.9"
 django = "^4.1.3"
 strawberry-graphql = "^0.142.2"
+strawberry-graphql-django = "^0.8.2"
+strawberry-django-plus = "^1.31.1"
 
+
+[tool.poetry.group.dev.dependencies]
+django-types = "^0.16.0"
 
 [build-system]
 requires = ["poetry-core"]
