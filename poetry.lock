@@ -54,6 +54,17 @@ beautifulsoup4 = "*"
 django = ">=2.2,<5.0"
 
 [[package]]
+name = "django-tree-queries"
+version = "0.12.0"
+description = "Tree queries with explicit opt-in, without configurability"
+category = "main"
+optional = false
+python-versions = ">=3.6"
+
+[package.extras]
+tests = ["coverage"]
+
+[[package]]
 name = "django-types"
 version = "0.16.0"
 description = "Type stubs for Django"
@@ -188,7 +199,7 @@ python-versions = ">=2"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "31674f11a6c36caf5d170c44c2a1e6699a11102bc1bdc2dbec74b60f8f722103"
+content-hash = "5c12ae61dd0ae7c67baf0e54862b4d91b4f24abc176d6e4fea5eb96f7f7d89a7"
 
 [metadata.files]
 asgiref = [
@@ -206,6 +217,10 @@ django = [
 django-easy-audit = [
     {file = "django-easy-audit-1.3.3.tar.gz", hash = "sha256:109bc92c677577623e460f069ec2fa5f30ec3b8b1591752786b9a5e7bc01bff1"},
     {file = "django_easy_audit-1.3.3-py3-none-any.whl", hash = "sha256:4b98262df68adbb2351a1b2b31e8c657317d78b0d3cfe4162f5c1fb79c846bfc"},
+]
+django-tree-queries = [
+    {file = "django_tree_queries-0.12.0-py3-none-any.whl", hash = "sha256:fcb6ca3c0d21d0a3576faf846fda7936aa4183b7433d56670af52fc038b72844"},
+    {file = "django_tree_queries-0.12.0.tar.gz", hash = "sha256:25aa63fc0e47177360cedf99245adc10ea247690bd9af32ebf4e44dad15b7c57"},
 ]
 django-types = [
     {file = "django-types-0.16.0.tar.gz", hash = "sha256:29d23af8b88fa1579b47418e92ffc1d89bfbdf11eab64d2ae006fa09e54fed9a"},

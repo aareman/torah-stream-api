@@ -10,3 +10,4 @@ from api import models
 
 admin.site.register(models.Series)
 admin.site.register(models.Shiur)
+admin.site.register(models.Category)
