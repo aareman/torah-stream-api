@@ -36,6 +36,11 @@ class SeriesAdmin(admin.ModelAdmin):
         )
 
 
+# TODO: allow playing audo from list page for cateogorization
+# TODO: preserve original series that it was imported with, so when
+# recategorizing it to a new series. can have it pop out into a new window
+# TODO: Add bulk change of series
+# FIX: import script doesn't set dates correctly in many instances
 @admin.register(models.Shiur)
 class ShiurAdmin(admin.ModelAdmin):
     list_display = ("title", "view_series", "created_at", "updated_at")

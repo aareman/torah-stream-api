@@ -2,7 +2,6 @@ from django.db import models
 from tree_queries.models import TreeNode
 
 # TODO: Add tags model
-# TODO: add category model
 
 
 class Series(models.Model):

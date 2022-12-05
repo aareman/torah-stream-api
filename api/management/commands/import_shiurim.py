@@ -9,6 +9,7 @@ from django.utils.timezone import utc
 from api import utils
 
 
+# FIX: make this atomic, so failure doesn't create duplicates
 class Command(BaseCommand):
     help = "Imports all episodes from a directory"
 
