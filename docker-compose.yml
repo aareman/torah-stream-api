@@ -1,0 +1,33 @@
+version: '3.3'
+
+services:
+    db:
+        image: postgres:12
+        restart: unless-stopped
+        volumes:
+            - pgData:/var/lib/postgresql/data
+        environment:
+            - POSTGRES_DB=postgres
+            - POSTGRES_USER=docker
+            - POSTGRES_PASSWORD=docker
+
+    web:
+      build:
+        context: .
+        dockerfile: Dockerfile
+      working_dir: /app
+      command: ./docker-entrypoint.sh
+      restart: always
+      stdin_open: true
+      ports:
+        - 4400:8000
+      tty: true
+      volumes:
+        - .:/app:rw
+      depends_on:
+        - db
+      env_file:
+        - ./.env
+
+volumes:
+    pgData:
