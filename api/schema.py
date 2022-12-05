@@ -5,11 +5,12 @@ import strawberry
 from strawberry.schema.config import StrawberryConfig
 from strawberry_django_plus import gql
 
-from api import models, types
+from api import models, types, utils
 
 # TODO: Add queries
 # - Progress, total / organized
 # - Mutation to import a shiur
+# TODO: Add rss feeds to be automatically generated
 
 
 @strawberry.type
@@ -32,30 +33,14 @@ class Mutation:
         audio_src: Optional[str] = "",
         video_src: Optional[str] = "",
     ) -> types.Shiur:
-
-        series, created = models.Series.objects.get_or_create(
-            key=series,
-            title=series,
-            category=models.Category.objects.get(name="Uncategorized"),
-        )
-        created_at = (
-            title[:10]
-            if (re.compile(r"^\d{4}-\d{2}-\d{2}")).match(title[:10])
-            else None
-        )
-        if created_at:
-            title = title[10 + 3 :]
-        shiur = models.Shiur.objects.create(
+        return utils.import_shiur(
             size=size,
             title=title,
+            series=series,
+            track=track,
             audio_src=audio_src,
             video_src=video_src,
-            track=int(track) if track else 0,
-            created_at=created_at,
-            series=series,
         )
-
-        return shiur
 
 
 # TODO: Add extensions
