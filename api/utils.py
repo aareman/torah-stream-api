@@ -1,6 +1,9 @@
 import re
+from datetime import date
 from os import wait
 from typing import List, Optional
+
+from django.utils.timezone import make_aware
 
 from api import models, types
 
@@ -21,7 +24,9 @@ def import_shiur(
         category=models.Category.objects.get(name="Uncategorized"),
     )
     created_at = (
-        title[:10] if (re.compile(r"^\d{4}-\d{2}-\d{2}")).match(title[:10]) else None
+        make_aware(date.fromisoformat(title[:10]))
+        if (re.compile(r"^\d{4}-\d{2}-\d{2}")).match(title[:10])
+        else None
     )
     shiur = models.Shiur.objects.create(
         size=size,
@@ -29,8 +34,11 @@ def import_shiur(
         audio_src=audio_src,
         video_src=video_src,
         track=int(track) if track else 0,
-        created_at=created_at,
         series=series,
     )
+
+    if created_at:
+        shiur.created_at = created_at
+        shiur.save()
 
     return shiur
