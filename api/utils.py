@@ -8,8 +8,6 @@ from django.utils.timezone import make_aware
 from api import models, types
 
 
-# TODO: preserve original series and title that it was imported with, so when
-# recategorizing it to a new series.
 def import_shiur(
     size: int,
     title: str,
