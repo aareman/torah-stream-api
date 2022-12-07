@@ -37,12 +37,17 @@ class SeriesAdmin(admin.ModelAdmin):
 
 
 # TODO: allow playing audo from list page for cateogorization
-# TODO: preserve original series that it was imported with, so when
-# recategorizing it to a new series. can have it pop out into a new window
-# TODO: Add bulk change of series
+# can have it pop out into a new window
 @admin.register(models.Shiur)
 class ShiurAdmin(admin.ModelAdmin):
     list_display = ("title", "view_series", "created_at", "updated_at")
+    # TODO: Add bulk change of series
+    # I think we need to keep in mind the following feature set
+    # 1. intermediate form page (see https://www.willandskill.se/en/articles/custom-django-admin-actions-with-an-intermediate-page)
+    # 2. Add an auto order/append/prepend to series
+    actions = [
+        "update_series",
+    ]
 
     def view_series(self, obj):
         url = (
@@ -51,6 +56,9 @@ class ShiurAdmin(admin.ModelAdmin):
             + urlencode({"series__id": f"{obj.series_id}"})
         )
         return format_html('<a href="{}">{}</a>', url, obj.series)
+
+    def update_series(self, request, queryset):
+        pass
 
 
 @admin.register(models.Category)

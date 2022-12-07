@@ -32,8 +32,15 @@ class Shiur(models.Model):
     audio_src = models.URLField()
     video_src = models.URLField(null=True)
     track = models.PositiveIntegerField(null=True, default=0)
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    # For tracking original imports
+    imported_series = models.ForeignKey(
+        "api.Series", on_delete=models.PROTECT, null=True
+    )
+    imported_title = models.CharField(max_length=255, null=True)
 
     @property
     def category(self):
