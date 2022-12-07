@@ -36,11 +36,15 @@ class SeriesAdmin(admin.ModelAdmin):
         )
 
 
-# TODO: allow playing audo from list page for cateogorization
-# can have it pop out into a new window
 @admin.register(models.Shiur)
 class ShiurAdmin(admin.ModelAdmin):
-    list_display = ("title", "view_series", "created_at", "updated_at")
+    list_display = ("title", "view_series", "created_at", "shiur_audio")
+
+    def shiur_audio(self, obj):
+        return format_html(
+            '<audio controls style="height:18px;" src="{}"/>', obj.audio_src
+        )
+
     # TODO: Add bulk change of series
     # I think we need to keep in mind the following feature set
     # 1. intermediate form page (see https://www.willandskill.se/en/articles/custom-django-admin-actions-with-an-intermediate-page)

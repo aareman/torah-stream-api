@@ -24,7 +24,7 @@ def import_shiur(
         category=models.Category.objects.get(name="Uncategorized"),
     )
     created_at = (
-        make_aware(date.fromisoformat(title[:10]))
+        date.fromisoformat(title[:10])
         if (re.compile(r"^\d{4}-\d{2}-\d{2}")).match(title[:10])
         else None
     )

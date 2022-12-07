@@ -33,8 +33,8 @@ class Shiur(models.Model):
     video_src = models.URLField(null=True)
     track = models.PositiveIntegerField(null=True, default=0)
 
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateField(auto_now_add=True)
+    updated_at = models.DateField(auto_now=True)
 
     # For tracking original imports
     imported_series = models.ForeignKey(
