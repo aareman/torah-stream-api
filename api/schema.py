@@ -7,9 +7,6 @@ from strawberry_django_plus import gql
 
 from api import models, types, utils
 
-# TODO: Add queries
-# - Progress, total / organized
-# - Mutation to import a shiur
 # TODO: Add rss feeds to be automatically generated
 
 
@@ -17,10 +14,9 @@ from api import models, types, utils
 class Query:
     series: List[types.Series] = gql.django.field()
     # TODO: Add category query
+    # TODO: Progress gql query - Progress, total / organized
 
 
-# TODO: Add mutation for importing a shiur (optional series key)
-# TODO: write a script to import all the old shiurim
 @strawberry.type
 class Mutation:
     @strawberry.field
