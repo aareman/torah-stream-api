@@ -12,9 +12,10 @@ class Shiur:
     title: gql.auto
     audio_src: gql.auto
     video_src: gql.auto
-    track: gql.auto
+    position: gql.auto
 
 
+# TODO: Add category type and relation in shiur
 @gql.django.type(models.Series)
 class Series:
     key: gql.auto

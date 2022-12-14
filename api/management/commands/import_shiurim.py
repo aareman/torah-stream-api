@@ -33,7 +33,7 @@ class Command(BaseCommand):
                     size=ep["FileSize"],
                     title=ep["Title"],
                     series=series_title or "",
-                    track=ep.get("Track"),
+                    position=ep.get("Track"),
                     audio_src=ep["audio"],
                     video_src=ep.get("video", ""),
                 )

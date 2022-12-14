@@ -17,7 +17,7 @@ class Series(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.title} ({self.category})"
+        return f"{self.title} ({self.category or 'Uncategorize'})"
 
     class Meta:
         verbose_name_plural = "Series"
@@ -27,11 +27,15 @@ class Shiur(models.Model):
     series = models.ForeignKey(
         "api.Series", on_delete=models.PROTECT, related_name="shiurim"
     )
+    categories = models.ManyToManyField("api.Category")
+    speaker = models.ForeignKey(
+        "api.Speaker", on_delete=models.PROTECT, null=True, blank=True
+    )
     size = models.PositiveIntegerField(null=True)
     title = models.CharField(max_length=255)
     audio_src = models.URLField()
-    video_src = models.URLField(null=True)
-    track = models.PositiveIntegerField(null=True, default=0)
+    video_src = models.URLField(null=True, blank=True)
+    position = models.PositiveIntegerField(null=True, default=0)
 
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
@@ -51,7 +55,7 @@ class Shiur(models.Model):
 
     class Meta:
         verbose_name_plural = "Shiurim"
-        ordering = ("track",)
+        ordering = ["position", "created_at"]
 
 
 class Category(TreeNode):
@@ -66,3 +70,7 @@ class Category(TreeNode):
     class Meta:
         ordering = ["position"]
         verbose_name_plural = "Categories"
+
+
+class Speaker(models.Model):
+    name = models.CharField(max_length=255)

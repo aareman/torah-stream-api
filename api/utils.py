@@ -12,7 +12,7 @@ def import_shiur(
     size: int,
     title: str,
     series: str,
-    track: Optional[str],
+    position: Optional[str],
     audio_src: Optional[str] = "",
     video_src: Optional[str] = "",
 ) -> types.Shiur:
@@ -21,7 +21,6 @@ def import_shiur(
         key=series,
         title=series,
         is_legacy=True,
-        category=models.Category.objects.get(name="Uncategorized"),
     )
     created_at = (
         date.fromisoformat(title[:10])
@@ -33,7 +32,7 @@ def import_shiur(
         title=title,
         audio_src=audio_src,
         video_src=video_src,
-        track=int(track) if track else 0,
+        position=int(position) if position else 0,
         series=series,
         imported_title=title,
         imported_series=series,
