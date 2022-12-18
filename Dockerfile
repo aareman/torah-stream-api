@@ -1,5 +1,7 @@
 FROM python:3.9.15-slim-buster
 
+ARG POETRY_INSTALLER_PARALLEL=true
+
 RUN apt update && apt install python3-dev libpq-dev postgresql postgresql-contrib -y
 
 RUN pip install poetry
