@@ -10,22 +10,18 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+SECRET_KEY = os.getenv(
+    "DJANGO_SECRET",
+    "django-insecure-jili**)9p%uwae38yjxejws0jfsh!ufom_2cujz-o-ic(r279e",
+)
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
-
-# FIX: deal with env setup
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-jili**)9p%uwae38yjxejws0jfsh!ufom_2cujz-o-ic(r279e"
-
-# FIX: deal with env setup
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv("DEBUG", "True") == "True"
 
 ALLOWED_HOSTS = []
 
@@ -47,6 +43,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -93,9 +90,9 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": "postgres",
-        "USER": "docker",
-        "PASSWORD": "docker",
-        "HOST": "db",
+        "USER": os.getenv("POSTGRES_USER", "docker"),
+        "PASSWORD": os.getenv("POSTGRES_PASSWORD", "docker"),
+        "HOST": os.getenv("POSTGRES_HOST", "db"),
         "PORT": "5432",
     }
 }
@@ -136,7 +133,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = "static/"
-
+STATIC_ROOT = BASE_DIR / "staticfiles"
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 

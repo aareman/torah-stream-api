@@ -1,0 +1,39 @@
+version: '3.7'
+
+services:
+  db:
+      image: postgres:12
+      container_name: torah-stream-api-db
+      restart: always
+      volumes:
+          - pgData:/var/lib/postgresql/data
+      env_file:
+        - ../torah-stream.env
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    working_dir: /app
+    command: ./docker-deploy.sh
+    restart: always
+    stdin_open: true
+    tty: true
+    expose:
+      - 8000
+    depends_on:
+      - db
+    environment:
+      - VIRTUAL_HOST=torah-stream-api.164.90.253.86.sslip.io
+      - VIRTUAL_PORT=8000
+      - LETSENCRYPT_HOST=torah-stream-api.164.90.253.86.sslip.io
+    env_file:
+      - ../torah-stream.env
+
+volumes:
+    pgData:
+
+networks:
+  default:
+    external: true
+    name: ${NETWORK:-proxy}

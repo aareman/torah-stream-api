@@ -6,10 +6,10 @@ RUN pip install poetry
 
 WORKDIR /app
 
-COPY pyproject.toml poetry.lock poetry.toml docker-entrypoint.sh ./
+COPY pyproject.toml poetry.lock poetry.toml ./
 
 RUN poetry install --no-root
 
 COPY . .
 
-RUN chmod +x docker-entrypoint.sh
+RUN chmod +x docker-entrypoint.sh docker-deploy.sh
