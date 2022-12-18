@@ -23,7 +23,7 @@ SECRET_KEY = os.getenv(
 
 DEBUG = os.getenv("DEBUG", "True") == "True"
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["torah-stream-api.164.90.253.86.sslip.io", "localhost"]
 
 
 # Application definition
