@@ -1,4 +1,8 @@
+from django import forms
 from django.contrib import admin
+from django.contrib.admin.widgets import FilteredSelectMultiple
+from django.http import HttpResponseRedirect
+from django.shortcuts import render
 from django.urls import reverse
 from django.utils.html import format_html
 from django.utils.http import urlencode
@@ -11,6 +15,7 @@ from api import models
 # TODO: ⭐ typeahead widget
 # TODO: ⭐ Bulk edit shiurim in a category
 # TODO: Add speaker admin
+# TODO: setup dragable ordering https://github.com/jrief/django-admin-sortable2
 
 
 @admin.register(models.Series)
@@ -49,14 +54,6 @@ class ShiurAdmin(DjangoQLSearchMixin, admin.ModelAdmin):
             '<audio controls style="height:18px;" src="{}"/>', obj.audio_src
         )
 
-    # TODO: Add bulk change of series
-    # I think we need to keep in mind the following feature set
-    # 1. intermediate form page (see https://www.willandskill.se/en/articles/custom-django-admin-actions-with-an-intermediate-page)
-    # 2. Add an auto order/append/prepend to series
-    actions = [
-        "update_series",
-    ]
-
     def view_series(self, obj):
         url = (
             reverse("admin:api_series_changelist")
@@ -65,8 +62,36 @@ class ShiurAdmin(DjangoQLSearchMixin, admin.ModelAdmin):
         )
         return format_html('<a href="{}">{}</a>', url, obj.series)
 
-    def update_series(self, request, queryset):
-        pass
+    # NOTE: Actions
+    # TODO: Add bulk change of series
+    # I think we need to keep in mind the following feature set
+    # 1. intermediate form page (see https://www.willandskill.se/en/articles/custom-django-admin-actions-with-an-intermediate-page)
+    # 2. Add an auto order/append/prepend to series
+    actions = [
+        "add_categories",
+    ]
+
+    def add_categories(self, request, queryset):
+        if "apply" in request.POST:
+            for shiur in queryset.all():
+                for id in request.POST.getlist("categories"):
+                    shiur.categories.add(id)
+                shiur.save()
+            self.message_user(request, "Added Categories")
+            return HttpResponseRedirect(request.get_full_path())
+
+        select = forms.ModelMultipleChoiceField(
+            queryset=models.Category.objects.all(),
+            widget=FilteredSelectMultiple("verbose name", is_stacked=False),
+        )
+        return render(
+            request,
+            "admin/shiur_category_intermediate.html",
+            context={
+                "select": select.widget.render("categories", None),
+                "shiurim": queryset.all(),
+            },
+        )
 
 
 @admin.register(models.Category)
