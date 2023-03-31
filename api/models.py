@@ -55,7 +55,7 @@ class Shiur(models.Model):
         return self.series.category if self.series.category else ""
 
     def __str__(self):
-        return self.title + f"({self.category})"
+        return self.title + f"({', '.join([c.name for c in self.categories.all()])})"
 
     class Meta:
         verbose_name_plural = "Shiurim"
