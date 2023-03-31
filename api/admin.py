@@ -45,9 +45,15 @@ class SeriesAdmin(admin.ModelAdmin):
 
 @admin.register(models.Shiur)
 class ShiurAdmin(DjangoQLSearchMixin, admin.ModelAdmin):
-    search_fields = ("title", "series__title")
+    search_fields = ("title", "series__title", "category__id")
     filter_horizontal = ("categories",)
-    list_display = ("title", "view_series", "created_at", "shiur_audio")
+    list_display = (
+        "title",
+        "view_series",
+        "view_categories",
+        "created_at",
+        "shiur_audio",
+    )
 
     def shiur_audio(self, obj):
         return format_html(
@@ -61,6 +67,24 @@ class ShiurAdmin(DjangoQLSearchMixin, admin.ModelAdmin):
             + urlencode({"series__id": f"{obj.series_id}"})
         )
         return format_html('<a href="{}">{}</a>', url, obj.series)
+
+    def view_categories(self, obj):
+        # FIX: this doesn't actually link to "all"
+        # the categories filtered down.
+        url = (
+            reverse("admin:api_category_changelist")
+            + "?"
+            + urlencode(
+                {
+                    "category__id": f"{','.join([str(c.id) for c in obj.categories.all().order_by('name')])}"
+                }
+            )
+        )
+        return format_html(
+            '<a href="{}">{}</a>',
+            url,
+            ", ".join([c.name for c in obj.categories.all().order_by("name")]),
+        )
 
     # NOTE: Actions
     # TODO: Add bulk change of series
