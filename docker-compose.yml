@@ -12,22 +12,22 @@ services:
             - POSTGRES_PASSWORD=docker
 
     web:
-      build:
-        context: .
-        dockerfile: Dockerfile
-      working_dir: /app
-      command: ./docker-entrypoint.sh
-      restart: always
-      stdin_open: true
-      ports:
-        - 4400:8000
-      tty: true
-      volumes:
-        - .:/app:rw
-      depends_on:
-        - db
-      env_file:
-        - ./.env
+        build:
+          context: .
+          dockerfile: Dockerfile
+        command: ./docker-entrypoint.sh
+        env_file:
+          - ./.env
+        depends_on:
+          - db
+        ports:
+          - 4400:8000
+        restart: always
+        stdin_open: true
+        tty: true
+        volumes:
+          - .:/app:rw
+        working_dir: /app
 
 volumes:
     pgData:
