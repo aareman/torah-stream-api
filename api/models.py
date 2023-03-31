@@ -25,7 +25,11 @@ class Series(models.Model):
 
 class Shiur(models.Model):
     series = models.ForeignKey(
-        "api.Series", on_delete=models.PROTECT, related_name="shiurim"
+        "api.Series",
+        on_delete=models.PROTECT,
+        related_name="shiurim",
+        null=True,
+        blank=True,
     )
     categories = models.ManyToManyField("api.Category")
     speaker = models.ForeignKey(
@@ -42,9 +46,9 @@ class Shiur(models.Model):
 
     # For tracking original imports
     imported_series = models.ForeignKey(
-        "api.Series", on_delete=models.PROTECT, null=True
+        "api.Series", on_delete=models.PROTECT, null=True, blank=True
     )
-    imported_title = models.CharField(max_length=255, null=True)
+    imported_title = models.CharField(max_length=255, null=True, blank=True)
 
     @property
     def category(self):
