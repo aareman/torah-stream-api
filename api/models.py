@@ -65,6 +65,8 @@ class Category(TreeNode):
     updated_at = models.DateField(auto_now=True)
 
     def __str__(self):
+        if self.parent:
+            return f"{self.name} ({self.parent.name})"
         return self.name
 
     class Meta:
